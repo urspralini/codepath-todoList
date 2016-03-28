@@ -2,8 +2,6 @@ package com.codepath.simpletodo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,14 +10,15 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.codepath.simpletodo.adapters.TodoItemArrayAdapter;
+import com.codepath.simpletodo.models.TodoItem;
 
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String POSITION = "position";
     public static final int REQUEST_CODE = 200;
     private ListView lvItems;
-    private List<String> todoItems;
-    private ArrayAdapter<String> todoAdapter;
+    private List<TodoItem> todoItems;
+    private TodoItemArrayAdapter todoAdapter;
     private EditText etEditText;
 
     @Override
@@ -46,9 +45,11 @@ public class MainActivity extends AppCompatActivity {
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-                todoItems.remove(position);
+                final TodoItem todoItem = todoItems.remove(position);
+                //delete todo item from the sql lite
+                todoItem.delete();
+                //notify the adapter about the change
                 todoAdapter.notifyDataSetChanged();
-                writeItems();
                 return true;
             }
         });
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 //explicit intent
                 Intent editItemIntent = new Intent(MainActivity.this, EditItemActivity.class);
-                editItemIntent.putExtra(TEXT, todoItems.get(position));
+                editItemIntent.putExtra(TEXT, todoItems.get(position).getName());
                 editItemIntent.putExtra(POSITION, position);
                 startActivityForResult(editItemIntent, REQUEST_CODE);
             }
@@ -92,42 +93,33 @@ public class MainActivity extends AppCompatActivity {
         if(resultCode == RESULT_OK && requestCode == REQUEST_CODE){
             final String itemText = data.getExtras().getString(TEXT);
             final int itemPosition = data.getExtras().getInt(POSITION);
-            todoItems.remove(itemPosition);
-            todoItems.add(itemPosition, itemText);
+            final TodoItem todoItem = todoItems.remove(itemPosition);
+            todoItem.setName(itemText);
+            todoItems.add(itemPosition, todoItem);
             todoAdapter.notifyDataSetChanged();
-            writeItems();
+            writeItem(todoItem);
         }
     }
 
     private void populateListItems() {
         readItems();
-        todoAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, todoItems);
+        todoAdapter = new TodoItemArrayAdapter(this, android.R.layout.simple_list_item_1, todoItems);
         lvItems.setAdapter(todoAdapter);
     }
 
     public void addItem(View view) {
-        todoItems.add(etEditText.getText().toString());
+        final TodoItem newTodoItem = new TodoItem();
+        newTodoItem.setName(etEditText.getText().toString());
+        todoItems.add(newTodoItem);
         etEditText.setText("");
-        writeItems();
+        writeItem(newTodoItem);
     }
 
     private void readItems(){
-        final File filesDir = getFilesDir();
-        File file = new File(filesDir, "todo.txt");
-        try {
-         todoItems = new ArrayList<>(FileUtils.readLines(file));
-        } catch (IOException e) {
-            todoItems = new ArrayList<>();
-        }
+        todoItems = TodoItem.getAll();
     }
 
-    private void writeItems(){
-        final File filesDir = getFilesDir();
-        File file = new File(filesDir, "todo.txt");
-        try {
-            FileUtils.writeLines(file, todoItems);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void writeItem(TodoItem item){
+       item.save();
     }
 }
