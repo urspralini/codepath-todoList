@@ -1,4 +1,4 @@
-package com.codepath.simpletodo;
+package com.codepath.simpletodo.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,17 +8,13 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.codepath.simpletodo.R;
 import com.codepath.simpletodo.adapters.TodoItemArrayAdapter;
 import com.codepath.simpletodo.models.TodoItem;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -108,11 +104,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addItem(View view) {
-        final TodoItem newTodoItem = new TodoItem();
-        newTodoItem.setName(etEditText.getText().toString());
-        todoItems.add(newTodoItem);
-        etEditText.setText("");
-        writeItem(newTodoItem);
+        //explicit intent
+        Intent editItemIntent = new Intent(MainActivity.this, DetailItemActivity.class);
+        startActivityForResult(editItemIntent, REQUEST_CODE);
     }
 
     private void readItems(){
