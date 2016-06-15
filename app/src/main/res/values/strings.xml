@@ -9,5 +9,21 @@
     <string name="main_activity_label">Simple Todo</string>
     <string name="edit_item_activity_label">Edit Item</string>
     <string name="title_activity_detail_item">DetailItemActivity</string>
+    <string name="tv_name">Name</string>
+    <string name="tv_due_date">Due Date</string>
+    <string name="tv_notes">Notes</string>
+    <string name="tv_priority">Priority</string>
+    <string name="tv_status">Status</string>
 
+    <string-array name="priority_arrays">
+        <item>HIGH</item>
+        <item>MEDIUM</item>
+        <item>LOW</item>
+    </string-array>
+
+    <string-array name="status_arrays">
+        <item>TO-DO</item>
+        <item>IN-PROGRESS</item>
+        <item>DONE</item>
+    </string-array>
 </resources>
