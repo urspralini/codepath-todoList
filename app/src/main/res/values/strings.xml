@@ -9,9 +9,13 @@
     <string name="main_activity_label">Simple Todo</string>
     <string name="edit_item_activity_label">Edit Item</string>
     <string name="title_activity_detail_item">DetailItemActivity</string>
+    <string name="title_activity_new_item">New Todo Item</string>
     <string name="tv_name">Name</string>
     <string name="tv_due_date">Due Date</string>
     <string name="tv_notes">Notes</string>
     <string name="tv_priority">Priority</string>
     <string name="tv_status">Status</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_cancel">Cancel</string>
+    <string name="menu_add">Add</string>
 </resources>

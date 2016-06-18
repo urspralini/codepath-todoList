@@ -1,5 +1,8 @@
 package com.codepath.simpletodo.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -12,22 +15,44 @@ import java.util.List;
  * Created by pbabu on 3/28/16.
  */
 @Table(name="TodoItems")
-public class TodoItem extends Model {
+public class TodoItem extends Model implements Parcelable {
 
     @Column(name="Name")
     public String name;
 
-    @Column(name = "dueDate")
+    @Column(name = "DueDate")
     public Date dueDate;
 
-    @Column(name = "notes")
+    @Column(name = "Notes")
     public String notes;
 
-    @Column(name = "status")
+    @Column(name = "Status")
     public Status status;
 
-    @Column(name = "priority")
+    @Column(name = "Priority")
     public Priority priority;
+
+    public static final Parcelable.Creator<TodoItem> CREATOR = new Parcelable.Creator<TodoItem>() {
+        @Override
+        public TodoItem createFromParcel(Parcel in) {
+            return new TodoItem(in);
+        }
+
+        @Override
+        public TodoItem[] newArray(int size) {
+            return new TodoItem[size];
+        }
+    };
+
+    private TodoItem(Parcel in){
+        this.name = in.readString();
+        this.dueDate = new Date(in.readLong());
+        this.notes = in.readString();
+        this.priority = Priority.valueOf(in.readString());
+        this.status = Status.valueOf(in.readString());
+    }
+
+    public TodoItem(){}
 
     public static List<TodoItem> getAll() {
         return new Select()
@@ -76,4 +101,22 @@ public class TodoItem extends Model {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(getName());
+        out.writeLong(dueDate.getTime());
+        out.writeString(getNotes());
+        out.writeString(getPriority().name());
+        out.writeString(getStatus().name());
+    }
+
+
+
 }
