@@ -63,32 +63,8 @@ public class DetailItemActivity extends AppCompatActivity {
         }
         mStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerStatus.setAdapter(mStatusAdapter);
-        mSpinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                final String itemAtPosition = (String) adapterView.getItemAtPosition(position);
-                String statusStr = itemAtPosition;
-                Status status;
-                switch (statusStr){
-                    case "In Progress":
-                        status = Status.IN_PROGRESS;
-                        break;
-                    case "Done":
-                        status = Status.DONE;
-                        break;
-                    default:
-                        status = Status.NEW;
-                }
-                DetailItemActivity.this.mTodoItem.setStatus(status);
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        //configure spinner status
+        //configure spinner priority
         mSpinnerPriority = (Spinner)findViewById(R.id.spinnerPriority);
         mPriorityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
         for (Priority priority : Priority.values()) {
@@ -96,30 +72,6 @@ public class DetailItemActivity extends AppCompatActivity {
         }
         mPriorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerPriority.setAdapter(mPriorityAdapter);
-        mSpinnerPriority.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                final String itemAtPosition = (String) adapterView.getItemAtPosition(position);
-                String priorityStr = itemAtPosition;
-                Priority priority;
-                switch (priorityStr){
-                    case "High":
-                        priority = Priority.HIGH;
-                        break;
-                    case "Medium":
-                        priority = Priority.MEDIUM;
-                        break;
-                    default:
-                        priority = Priority.LOW;
-                }
-                DetailItemActivity.this.mTodoItem.setPriority(priority);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
     }
 
     @Override
@@ -158,7 +110,8 @@ public class DetailItemActivity extends AppCompatActivity {
                 mDueDatePicker.getMonth(),
                 mDueDatePicker.getDayOfMonth());
         mTodoItem.setDueDate(calendar.getTime());
-        mTodoItem.save();
+        mTodoItem.setPriority(getItemPriority());
+        mTodoItem.setStatus(getItemStatus());
     }
 
     private void populateFieldsForEdit(){
@@ -176,6 +129,40 @@ public class DetailItemActivity extends AppCompatActivity {
         final int month = calendar.get(Calendar.MONTH);
         final int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         mDueDatePicker.updateDate(year,month,dayOfMonth);
+    }
+
+    private Status getItemStatus() {
+        final String statusStr = mStatusAdapter.getItem(
+                mSpinnerStatus.getSelectedItemPosition()).toString();
+        Status status;
+        switch (statusStr){
+            case "In Progress":
+                status = Status.IN_PROGRESS;
+                break;
+            case "Done":
+                status = Status.DONE;
+                break;
+            default:
+                status = Status.NEW;
+        }
+        return status;
+    }
+
+    private Priority getItemPriority() {
+        final String priorityStr = mPriorityAdapter.getItem(
+                mSpinnerPriority.getSelectedItemPosition()).toString();
+        Priority priority;
+        switch (priorityStr){
+            case "High":
+                priority = Priority.HIGH;
+                break;
+            case "Medium":
+                priority = Priority.MEDIUM;
+                break;
+            default:
+                priority = Priority.LOW;
+        }
+        return priority;
     }
 
 }
