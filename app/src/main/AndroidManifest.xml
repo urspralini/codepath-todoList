@@ -32,13 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.EditItemActivity"
-            android:label="@string/edit_item_activity_label"
-            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".activities.DetailItemActivity"
+            android:name=".activities.EditActivity"
             android:label="Item Detail"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

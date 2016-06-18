@@ -19,7 +19,7 @@ import com.codepath.simpletodo.models.TodoItem;
 
 import java.util.Calendar;
 
-public class DetailItemActivity extends AppCompatActivity {
+public class EditActivity extends AppCompatActivity {
 
     private TodoItem mTodoItem;
     private Spinner mSpinnerStatus;
@@ -35,7 +35,7 @@ public class DetailItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.title_activity_new_item);
-        setContentView(R.layout.activity_detail_item);
+        setContentView(R.layout.activity_edit_new__item);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initializeUIElements();
