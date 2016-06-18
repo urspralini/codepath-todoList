@@ -14,16 +14,4 @@
     <string name="tv_notes">Notes</string>
     <string name="tv_priority">Priority</string>
     <string name="tv_status">Status</string>
-
-    <string-array name="priority_arrays">
-        <item>HIGH</item>
-        <item>MEDIUM</item>
-        <item>LOW</item>
-    </string-array>
-
-    <string-array name="status_arrays">
-        <item>TO-DO</item>
-        <item>IN-PROGRESS</item>
-        <item>DONE</item>
-    </string-array>
 </resources>

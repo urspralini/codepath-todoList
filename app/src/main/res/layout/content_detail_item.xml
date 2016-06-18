@@ -130,7 +130,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinnerPriority"
-            android:entries="@array/priority_arrays"
             android:spinnerMode="dropdown"
             android:layout_alignTop="@+id/tvItemPriority"
             android:layout_toRightOf="@+id/tvItemPriority"/>
@@ -143,7 +142,6 @@
         android:layout_below="@+id/llPriority"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:layout_marginTop="31dp">
 
         <TextView
@@ -163,7 +161,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinnerStatus"
-            android:entries="@array/status_arrays"
             android:spinnerMode="dropdown"
             android:layout_alignTop="@+id/tvItemStatus"
             android:layout_toRightOf="@+id/tvItemStatus"
