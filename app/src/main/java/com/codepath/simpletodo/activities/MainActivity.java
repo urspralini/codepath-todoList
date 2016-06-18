@@ -90,17 +90,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK) {
             if(requestCode == REQUEST_CODE_EDIT) {
-                final TodoItem todoItem = data.getParcelableExtra(TODO_ITEM_KEY);
+                final TodoItem updatedTodoItem = data.getParcelableExtra(TODO_ITEM_KEY);
                 final int itemPosition = data.getExtras().getInt(POSITION);
-                todoItems.remove(itemPosition);
-                todoItems.add(itemPosition, todoItem);
+                final TodoItem existingTodoItem = todoItems.remove(itemPosition);
+                copyFrom(updatedTodoItem, existingTodoItem);
+                writeItem(existingTodoItem);
+                todoItems.add(itemPosition, existingTodoItem);
                 todoAdapter.notifyDataSetChanged();
-                writeItem(todoItem);
             }else if(requestCode == REQUEST_CODE_NEW){
                 TodoItem newItem = data.getParcelableExtra(TODO_ITEM_KEY);
                 todoItems.add(newItem);
                 todoAdapter.notifyDataSetChanged();
+                writeItem(newItem);
             }
+
         }
     }
 
@@ -116,5 +119,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void writeItem(TodoItem item){
        item.save();
+    }
+
+    private void copyFrom(TodoItem updated, TodoItem existing) {
+        existing.setName(updated.getName());
+        existing.setDueDate(updated.getDueDate());
+        existing.setNotes(updated.getNotes());
+        existing.setPriority(updated.getPriority());
+        existing.setStatus(updated.getStatus());
     }
 }

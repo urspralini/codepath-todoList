@@ -7,8 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -86,7 +84,7 @@ public class DetailItemActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-                writeItem();
+                populateTodoItem();
                 Intent returnData = new Intent();
                 returnData.putExtra(MainActivity.TODO_ITEM_KEY, mTodoItem);
                 returnData.putExtra(MainActivity.POSITION, mItemPosition);
@@ -102,7 +100,7 @@ public class DetailItemActivity extends AppCompatActivity {
 
     }
 
-    private void writeItem(){
+    private void populateTodoItem(){
         mTodoItem.setName(mItemName.getText().toString());
         mTodoItem.setNotes(mItemNotes.getText().toString());
         final Calendar calendar = Calendar.getInstance();
