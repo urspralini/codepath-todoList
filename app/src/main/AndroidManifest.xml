@@ -17,7 +17,6 @@
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="2" />
-
         <meta-data
             android:name="AA_MODELS"
             android:value="com.codepath.simpletodo.models.TodoItem" />
@@ -32,10 +31,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".activities.EditActivity"
+            android:name=".activities.EditItemActivity"
             android:label="Item Detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.DetailItemActivity"
+            android:label="@string/title_activity_detail_item"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

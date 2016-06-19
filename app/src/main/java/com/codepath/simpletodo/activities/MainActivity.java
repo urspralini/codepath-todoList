@@ -18,7 +18,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TEXT = "text";
     public static final String POSITION = "position";
     public static final int REQUEST_CODE_EDIT = 200;
     public static final int REQUEST_CODE_NEW = 201;
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 //explicit intent
-                Intent editItemIntent = new Intent(MainActivity.this, EditActivity.class);
+                Intent editItemIntent = new Intent(MainActivity.this, EditItemActivity.class);
                 Bundle todoItemBundle = new Bundle();
                 todoItemBundle.putParcelable(TODO_ITEM_KEY, todoItems.get(position));
                 editItemIntent.putExtra(POSITION, position);
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_add_item:
                 //open detail item activity
-                Intent addItemIntent = new Intent(this, EditActivity.class);
+                Intent addItemIntent = new Intent(this, EditItemActivity.class);
                 startActivityForResult(addItemIntent,REQUEST_CODE_NEW);
                 break;
             case R.id.action_settings:
