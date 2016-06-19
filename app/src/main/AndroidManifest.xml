@@ -31,14 +31,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.EditItemActivity"
-            android:label="Item Detail"
-            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- A child of the main activity -->
         <activity
             android:name=".activities.DetailItemActivity"
             android:label="@string/title_activity_detail_item"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+        <!-- A child of the detail activity -->
+
+        <activity
+            android:name=".activities.EditItemActivity"
+            android:label="Item Detail"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.DetailItemActivity"
+            >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.DetailItemActivity" />
+        </activity>
     </application>
 
 </manifest>

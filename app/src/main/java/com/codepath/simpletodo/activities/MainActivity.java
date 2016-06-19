@@ -46,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        //on item click, open editItem activity
+        //on item click, open detail item activity
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 //explicit intent
-                Intent editItemIntent = new Intent(MainActivity.this, EditItemActivity.class);
+                Intent editItemIntent = new Intent(MainActivity.this, DetailItemActivity.class);
                 Bundle todoItemBundle = new Bundle();
                 todoItemBundle.putParcelable(TODO_ITEM_KEY, todoItems.get(position));
                 editItemIntent.putExtra(POSITION, position);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_add_item:
                 //open detail item activity
-                Intent addItemIntent = new Intent(this, EditItemActivity.class);
+                Intent addItemIntent = new Intent(this, DetailItemActivity.class);
                 startActivityForResult(addItemIntent,REQUEST_CODE_NEW);
                 break;
             case R.id.action_settings:

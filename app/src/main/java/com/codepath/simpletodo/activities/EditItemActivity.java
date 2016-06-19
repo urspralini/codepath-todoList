@@ -39,6 +39,7 @@ public class EditItemActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initializeUIElements();
+        mItemPosition = getIntent().getIntExtra(MainActivity.POSITION, -1);
         mTodoItem = getIntent().getParcelableExtra(MainActivity.TODO_ITEM_KEY);
         if(mTodoItem == null) {
             mTodoItem = new TodoItem();
@@ -48,7 +49,6 @@ public class EditItemActivity extends AppCompatActivity {
     }
 
     private void initializeUIElements() {
-        mItemPosition = getIntent().getIntExtra(MainActivity.POSITION, -1);
         mItemName = (EditText) findViewById(R.id.etDetailItemText);
         mItemNotes = (EditText) findViewById(R.id.etDetailItemNotes);
         mDueDatePicker = (DatePicker)findViewById(R.id.datePicker);
@@ -75,7 +75,7 @@ public class EditItemActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_todo_detail, menu);
+        inflater.inflate(R.menu.menu_todo_edit, menu);
         return true;
     }
 
