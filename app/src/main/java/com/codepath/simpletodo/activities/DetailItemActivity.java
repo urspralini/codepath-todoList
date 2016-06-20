@@ -1,6 +1,7 @@
 package com.codepath.simpletodo.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -92,13 +93,29 @@ public class DetailItemActivity extends AppCompatActivity {
         mItemNotes.setText(mTodoItem.getNotes());
         mItemStatus.setText(mTodoItem.getStatus().toString());
         mItemPriority.setText(mTodoItem.getPriority().toString());
-    }
-
-    private void copyFrom(TodoItem updated, TodoItem existing) {
-        existing.setName(updated.getName());
-        existing.setDueDate(updated.getDueDate());
-        existing.setNotes(updated.getNotes());
-        existing.setPriority(updated.getPriority());
-        existing.setStatus(updated.getStatus());
+        int priorityColor;
+        switch (mTodoItem.getPriority()) {
+            case HIGH:
+                priorityColor = Color.parseColor(getString(R.string.priority_high_color));
+                break;
+            case MEDIUM:
+                priorityColor = Color.parseColor(getString(R.string.priority_medium_color));
+                break;
+            default:
+                priorityColor = Color.parseColor(getString(R.string.priority_low_color));
+        }
+        mItemPriority.setTextColor(priorityColor);
+        int statusColor;
+        switch (mTodoItem.getStatus()) {
+            case NEW:
+                statusColor = Color.parseColor(getString(R.string.status_new_color));
+                break;
+            case IN_PROGRESS:
+                statusColor = Color.parseColor(getString(R.string.status_in_progress_color));
+                break;
+            default:
+                statusColor = Color.parseColor(getString(R.string.status_done_color));
+        }
+        mItemStatus.setTextColor(statusColor);
     }
 }

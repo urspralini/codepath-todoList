@@ -55,17 +55,34 @@ public class TodoItemArrayAdapter extends ArrayAdapter<TodoItem> {
         int priorityColor;
         switch (todoItem.getPriority()) {
             case HIGH:
-                priorityColor = Color.RED;
+                priorityColor = Color.parseColor(getContext()
+                        .getString(R.string.priority_high_color));
                 break;
             case MEDIUM:
-                priorityColor = Color.YELLOW;
+                priorityColor = Color.parseColor(getContext()
+                        .getString(R.string.priority_medium_color));
                 break;
             default:
-                priorityColor = Color.BLUE;
-                break;
+                priorityColor = Color.parseColor(getContext()
+                        .getString(R.string.priority_low_color));
         }
         viewHolder.tvPriority.setTextColor(priorityColor);
         viewHolder.tvStatus.setText(todoItem.getStatus().toString());
+        int statusColor;
+        switch (todoItem.getStatus()) {
+            case NEW:
+                statusColor = Color.parseColor(getContext()
+                        .getString(R.string.status_new_color));
+                break;
+            case IN_PROGRESS:
+                statusColor = Color.parseColor(getContext()
+                        .getString(R.string.status_in_progress_color));
+                break;
+            default:
+                statusColor = Color.parseColor(getContext()
+                        .getString(R.string.status_done_color));
+        }
+        viewHolder.tvStatus.setTextColor(statusColor);
         viewHolder.tvDueDate.setText(DetailItemActivity.SDF.format(todoItem.getDueDate()));
         return  convertView;
     }

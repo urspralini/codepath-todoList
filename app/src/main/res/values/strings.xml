@@ -20,4 +20,10 @@
     <string name="menu_add">Add</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_delete">Delete</string>
+    <string name="status_new_color">#E67E22</string>
+    <string name="status_in_progress_color">#6C3483</string>
+    <string name="status_done_color">#1E8449</string>
+    <string name="priority_high_color">#A93226</string>
+    <string name="priority_medium_color">#B7950B</string>
+    <string name="priority_low_color">#2874A6</string>
 </resources>
