@@ -6,9 +6,9 @@
     <string name="title_activity_edit_item">EditItemActivity</string>
     <string name="save">Save</string>
     <string name="edit_item_text">Edit Item Below:</string>
-    <string name="main_activity_label">Simple Todo</string>
+    <string name="main_activity_label">Todo List</string>
     <string name="edit_item_activity_label">Edit Item</string>
-    <string name="title_activity_detail_item">DetailItemActivity</string>
+    <string name="title_activity_detail_item">Item Detail</string>
     <string name="title_activity_new_item">New Todo Item</string>
     <string name="tv_name">Name</string>
     <string name="tv_due_date">Due Date</string>
