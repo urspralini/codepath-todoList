@@ -1,6 +1,7 @@
 package com.codepath.simpletodo.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,19 @@ public class TodoItemArrayAdapter extends ArrayAdapter<TodoItem> {
         }
         viewHolder.tvName.setText(todoItem.getName());
         viewHolder.tvPriority.setText(todoItem.getPriority().toString());
+        int priorityColor;
+        switch (todoItem.getPriority()) {
+            case HIGH:
+                priorityColor = Color.RED;
+                break;
+            case MEDIUM:
+                priorityColor = Color.YELLOW;
+                break;
+            default:
+                priorityColor = Color.BLUE;
+                break;
+        }
+        viewHolder.tvPriority.setTextColor(priorityColor);
         viewHolder.tvStatus.setText(todoItem.getStatus().toString());
         viewHolder.tvDueDate.setText(DetailItemActivity.SDF.format(todoItem.getDueDate()));
         return  convertView;
