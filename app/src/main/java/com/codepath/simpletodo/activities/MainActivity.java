@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void configureListViewAdapter() {
-        todoAdapter = new TodoItemArrayAdapter(this, android.R.layout.simple_list_item_1, todoItems);
+        todoAdapter = new TodoItemArrayAdapter(this, R.layout.list_item, todoItems);
         lvItems.setAdapter(todoAdapter);
     }
 

@@ -26,6 +26,8 @@ public class DetailItemActivity extends AppCompatActivity {
     private TextView mDueDatePicker;
     private int mItemPosition;
     private long mTodoItemId;
+    public static final SimpleDateFormat SDF = new SimpleDateFormat("dd/M/yyyy");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +88,7 @@ public class DetailItemActivity extends AppCompatActivity {
 
     private void populateUIWithValues() {
         mItemName.setText(mTodoItem.getName());
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
-        mDueDatePicker.setText(sdf.format(mTodoItem.getDueDate()));
+        mDueDatePicker.setText(SDF.format(mTodoItem.getDueDate()));
         mItemNotes.setText(mTodoItem.getNotes());
         mItemStatus.setText(mTodoItem.getStatus().toString());
         mItemPriority.setText(mTodoItem.getPriority().toString());
