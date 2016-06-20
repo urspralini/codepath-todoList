@@ -1,16 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.EditItemActivity"
-    tools:showIn="@layout/activity_edit_item">
-
+    tools:context=".activities.DetailItemActivity"
+    tools:showIn="@layout/activity_detail_item"
+    android:weightSum="1">
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -19,151 +21,175 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:id="@+id/llName"
-        android:layout_centerHorizontal="true">
-
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp"
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_name"
             style="@android:style/TextAppearance.Medium"
             android:textStyle="bold"
-            android:id="@+id/tvItemName"
+            android:id="@+id/tvName"
             android:layout_gravity="center_vertical"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <EditText
-            android:layout_width="228dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toLeftOf="@+id/tvItemName"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/etDetailItemText"
-            />
-    </RelativeLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/llName"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:id="@+id/lldueDate">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:text="@string/tv_due_date"
-            style="@android:style/TextAppearance.Medium"
-            android:textStyle="bold"
-            android:id="@+id/tvItemDueDate"
-            android:layout_gravity="center_vertical" />
-        <DatePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:text="Name-Value"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:id="@+id/datePicker"
-            android:layout_toLeftOf="@+id/tvItemDueDate"
-            android:calendarViewShown="false"
-            android:paddingLeft="@dimen/activity_vertical_margin"
-            android:datePickerMode="spinner"/>
-    </LinearLayout>
+            android:layout_toLeftOf="@+id/tvName"
+            style="@android:style/TextAppearance.Medium"
+            android:textStyle="bold"
+            android:id="@+id/tvNameVal"
+            android:layout_gravity="center_vertical" />
+    </RelativeLayout>
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lldueDate"
-        android:id="@+id/llNotes"
-        android:layout_centerHorizontal="true">
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/llDueDate"
+        android:layout_below="@+id/llName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_due_date"
+            style="@android:style/TextAppearance.Medium"
+            android:textStyle="bold"
+            android:id="@+id/tvDueDate"
+            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Due-Date"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toLeftOf="@+id/tvDueDate"
+            style="@android:style/TextAppearance.Medium"
+            android:textStyle="bold"
+            android:id="@+id/tvDueDateVal"
+            android:layout_gravity="center_vertical" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/llNotes"
+        android:layout_below="@+id/llDueDate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp"
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_notes"
             style="@android:style/TextAppearance.Medium"
             android:textStyle="bold"
-            android:id="@+id/tvItemNotes"
+            android:id="@+id/tvNotes"
+            android:layout_gravity="center_vertical"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <EditText
-            android:layout_width="228dp"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="notes-Value"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_toLeftOf="@+id/tvItemNotes"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/etDetailItemNotes"
-            />
+            android:layout_toLeftOf="@+id/tvNotes"
+            style="@android:style/TextAppearance.Medium"
+            android:textStyle="bold"
+            android:id="@+id/tvNotesVal"
+            android:layout_gravity="center_vertical" />
     </RelativeLayout>
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:id="@+id/llPriority"
         android:layout_below="@+id/llNotes"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="31dp">
-
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp"
+        >
         <TextView
-            android:paddingRight="@dimen/activity_vertical_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_priority"
             style="@android:style/TextAppearance.Medium"
             android:textStyle="bold"
-            android:id="@+id/tvItemPriority"
+            android:id="@+id/tvPriority"
+            android:layout_gravity="center_vertical"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <Spinner
-            android:paddingLeft="@dimen/activity_vertical_margin"
-            android:layout_width="fill_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/spinnerPriority"
-            android:spinnerMode="dropdown"
-            android:layout_alignTop="@+id/tvItemPriority"
-            android:layout_toRightOf="@+id/tvItemPriority"/>
+            android:text="Priority-Value"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toLeftOf="@+id/tvPriority"
+            style="@android:style/TextAppearance.Medium"
+            android:textStyle="bold"
+            android:id="@+id/tvPriorityVal"
+            android:layout_gravity="center_vertical" />
     </RelativeLayout>
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:id="@+id/llStatus"
         android:layout_below="@+id/llPriority"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="31dp">
-
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp"
+        >
         <TextView
-            android:paddingRight="@dimen/activity_vertical_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tv_status"
             style="@android:style/TextAppearance.Medium"
             android:textStyle="bold"
-            android:id="@+id/tvItemStatus"
+            android:id="@+id/tvStatus"
+            android:layout_gravity="center_vertical"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <Spinner
-            android:paddingLeft="@dimen/activity_vertical_margin"
-            android:layout_width="fill_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/spinnerStatus"
-            android:spinnerMode="dropdown"
-            android:layout_alignTop="@+id/tvItemStatus"
-            android:layout_toRightOf="@+id/tvItemStatus"
-            />
+            android:text="Status-Value"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toLeftOf="@+id/tvStatus"
+            style="@android:style/TextAppearance.Medium"
+            android:textStyle="bold"
+            android:id="@+id/tvStatusVal"
+            android:layout_gravity="center_vertical" />
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

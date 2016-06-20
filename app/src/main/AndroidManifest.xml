@@ -11,11 +11,18 @@
         android:theme="@style/AppTheme">
 
         <!-- add the following metadata for version and database name -->
-        <meta-data android:name="AA_DB_NAME" android:value="TodoTasks.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="TodoTasks.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="2" />
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="com.codepath.simpletodo.models.TodoItem" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/main_activity_label"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -24,10 +31,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- A child of the main activity -->
         <activity
-            android:name=".EditItemActivity"
-            android:label="@string/edit_item_activity_label"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".activities.DetailItemActivity"
+            android:label="@string/title_activity_detail_item"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
+        <!-- A child of the detail activity -->
+
+        <activity
+            android:name=".activities.EditItemActivity"
+            android:label="Item Detail"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.DetailItemActivity"
+            >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.DetailItemActivity" />
+        </activity>
     </application>
 
 </manifest>

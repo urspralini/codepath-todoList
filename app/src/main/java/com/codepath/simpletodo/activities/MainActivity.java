@@ -8,25 +8,23 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import com.codepath.simpletodo.R;
 import com.codepath.simpletodo.adapters.TodoItemArrayAdapter;
 import com.codepath.simpletodo.models.TodoItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TEXT = "text";
     public static final String POSITION = "position";
-    public static final int REQUEST_CODE = 200;
     private ListView lvItems;
-    private List<TodoItem> todoItems;
+    private List<TodoItem> todoItems = new ArrayList<>();
     private TodoItemArrayAdapter todoAdapter;
-    private EditText etEditText;
-
+    public static final String TODO_ITEM_KEY = "todoItemParcelable";
+    public static final String TODO_ITEM_ID_KEY = "todoItemId";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,31 +33,25 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //get references to list view and edit text
         lvItems = (ListView)findViewById(R.id.lvItems);
-        etEditText = (EditText)findViewById(R.id.etEditText);
-        populateListItems();
-        //add item long click listener to delete the item from the list
-        lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-                final TodoItem todoItem = todoItems.remove(position);
-                //delete todo item from the sql lite
-                todoItem.delete();
-                //notify the adapter about the change
-                todoAdapter.notifyDataSetChanged();
-                return true;
-            }
-        });
-        //on item click, open editItem activity
+        configureListViewAdapter();
+        //on item click, open detail item activity
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 //explicit intent
-                Intent editItemIntent = new Intent(MainActivity.this, EditItemActivity.class);
-                editItemIntent.putExtra(TEXT, todoItems.get(position).getName());
-                editItemIntent.putExtra(POSITION, position);
-                startActivityForResult(editItemIntent, REQUEST_CODE);
+                Intent detailItemIntent = new Intent(MainActivity.this, DetailItemActivity.class);
+                final TodoItem todoItem = todoItems.get(position);
+                detailItemIntent.putExtra(TODO_ITEM_ID_KEY, todoItem.getId());
+                detailItemIntent.putExtra(POSITION, position);
+                startActivity(detailItemIntent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        readItems();
     }
 
     @Override
@@ -71,49 +63,30 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_add_item:
+                //open detail item activity
+                Intent addItemIntent = new Intent(this, EditItemActivity.class);
+                startActivity(addItemIntent);
+                break;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK && requestCode == REQUEST_CODE){
-            final String itemText = data.getExtras().getString(TEXT);
-            final int itemPosition = data.getExtras().getInt(POSITION);
-            final TodoItem todoItem = todoItems.remove(itemPosition);
-            todoItem.setName(itemText);
-            todoItems.add(itemPosition, todoItem);
-            todoAdapter.notifyDataSetChanged();
-            writeItem(todoItem);
-        }
-    }
-
-    private void populateListItems() {
-        readItems();
-        todoAdapter = new TodoItemArrayAdapter(this, android.R.layout.simple_list_item_1, todoItems);
+    private void configureListViewAdapter() {
+        todoAdapter = new TodoItemArrayAdapter(this, R.layout.list_item, todoItems);
         lvItems.setAdapter(todoAdapter);
-    }
-
-    public void addItem(View view) {
-        //explicit intent
-        Intent editItemIntent = new Intent(MainActivity.this, DetailItemActivity.class);
-        startActivityForResult(editItemIntent, REQUEST_CODE);
     }
 
     private void readItems(){
         todoItems = TodoItem.getAll();
-    }
-
-    private void writeItem(TodoItem item){
-       item.save();
+        todoAdapter.clear();
+        todoAdapter.addAll(todoItems);
+        todoAdapter.notifyDataSetChanged();
     }
 }
