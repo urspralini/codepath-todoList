@@ -14,17 +14,18 @@ import com.codepath.simpletodo.R;
 import com.codepath.simpletodo.adapters.TodoItemArrayAdapter;
 import com.codepath.simpletodo.models.TodoItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String POSITION = "position";
     public static final int REQUEST_CODE_EDIT = 200;
-    public static final int REQUEST_CODE_NEW = 201;
     private ListView lvItems;
-    private List<TodoItem> todoItems;
+    private List<TodoItem> todoItems = new ArrayList<>();
     private TodoItemArrayAdapter todoAdapter;
     public static final String TODO_ITEM_KEY = "todoItemParcelable";
+    public static final String TODO_ITEM_ID_KEY = "todoItemId";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,32 +34,25 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //get references to list view and edit text
         lvItems = (ListView)findViewById(R.id.lvItems);
-        populateListItems();
-        //add item long click listener to delete the item from the list
-        lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-                final TodoItem todoItem = todoItems.remove(position);
-                //delete todo item from the sql lite
-                todoItem.delete();
-                //notify the adapter about the change
-                todoAdapter.notifyDataSetChanged();
-                return true;
-            }
-        });
+        configureListViewAdapter();
         //on item click, open detail item activity
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 //explicit intent
-                Intent editItemIntent = new Intent(MainActivity.this, DetailItemActivity.class);
-                Bundle todoItemBundle = new Bundle();
-                todoItemBundle.putParcelable(TODO_ITEM_KEY, todoItems.get(position));
-                editItemIntent.putExtra(POSITION, position);
-                editItemIntent.putExtras(todoItemBundle);
-                startActivityForResult(editItemIntent, REQUEST_CODE_EDIT);
+                Intent detailItemIntent = new Intent(MainActivity.this, DetailItemActivity.class);
+                final TodoItem todoItem = todoItems.get(position);
+                detailItemIntent.putExtra(TODO_ITEM_ID_KEY, todoItem.getId());
+                detailItemIntent.putExtra(POSITION, position);
+                startActivity(detailItemIntent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        readItems();
     }
 
     @Override
@@ -73,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_add_item:
                 //open detail item activity
-                Intent addItemIntent = new Intent(this, DetailItemActivity.class);
-                startActivityForResult(addItemIntent,REQUEST_CODE_NEW);
+                Intent addItemIntent = new Intent(this, EditItemActivity.class);
+                startActivity(addItemIntent);
                 break;
             case R.id.action_settings:
                 return true;
@@ -85,46 +79,15 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK) {
-            if(requestCode == REQUEST_CODE_EDIT) {
-                final TodoItem updatedTodoItem = data.getParcelableExtra(TODO_ITEM_KEY);
-                final int itemPosition = data.getExtras().getInt(POSITION);
-                final TodoItem existingTodoItem = todoItems.remove(itemPosition);
-                copyFrom(updatedTodoItem, existingTodoItem);
-                writeItem(existingTodoItem);
-                todoItems.add(itemPosition, existingTodoItem);
-                todoAdapter.notifyDataSetChanged();
-            }else if(requestCode == REQUEST_CODE_NEW){
-                TodoItem newItem = data.getParcelableExtra(TODO_ITEM_KEY);
-                todoItems.add(newItem);
-                todoAdapter.notifyDataSetChanged();
-                writeItem(newItem);
-            }
-
-        }
-    }
-
-    private void populateListItems() {
-        readItems();
+    private void configureListViewAdapter() {
         todoAdapter = new TodoItemArrayAdapter(this, android.R.layout.simple_list_item_1, todoItems);
         lvItems.setAdapter(todoAdapter);
     }
 
     private void readItems(){
         todoItems = TodoItem.getAll();
-    }
-
-    private void writeItem(TodoItem item){
-       item.save();
-    }
-
-    private void copyFrom(TodoItem updated, TodoItem existing) {
-        existing.setName(updated.getName());
-        existing.setDueDate(updated.getDueDate());
-        existing.setNotes(updated.getNotes());
-        existing.setPriority(updated.getPriority());
-        existing.setStatus(updated.getStatus());
+        todoAdapter.clear();
+        todoAdapter.addAll(todoItems);
+        todoAdapter.notifyDataSetChanged();
     }
 }

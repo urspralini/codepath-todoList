@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.activeandroid.Model;
 import com.codepath.simpletodo.R;
 import com.codepath.simpletodo.models.Priority;
 import com.codepath.simpletodo.models.Status;
@@ -28,6 +29,7 @@ public class EditItemActivity extends AppCompatActivity {
     private EditText mItemNotes;
     private DatePicker mDueDatePicker;
     private int mItemPosition;
+    private long mTodoItemId;
     private ArrayAdapter<CharSequence> mStatusAdapter;
     private ArrayAdapter<CharSequence> mPriorityAdapter;
 
@@ -40,10 +42,11 @@ public class EditItemActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         initializeUIElements();
         mItemPosition = getIntent().getIntExtra(MainActivity.POSITION, -1);
-        mTodoItem = getIntent().getParcelableExtra(MainActivity.TODO_ITEM_KEY);
-        if(mTodoItem == null) {
+        mTodoItemId = getIntent().getLongExtra(MainActivity.TODO_ITEM_ID_KEY, -1);
+        if(mTodoItemId == -1) {
             mTodoItem = new TodoItem();
         }else {
+            mTodoItem = Model.load(TodoItem.class, mTodoItemId);
             populateFieldsForEdit();
         }
     }
@@ -89,6 +92,7 @@ public class EditItemActivity extends AppCompatActivity {
                 returnData.putExtra(MainActivity.TODO_ITEM_KEY, mTodoItem);
                 returnData.putExtra(MainActivity.POSITION, mItemPosition);
                 setResult(RESULT_OK, returnData);
+                mTodoItem.save();
                 this.finish();
                 return true;
             case R.id.action_cancel:
