@@ -76,19 +76,6 @@ public class DetailItemActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK) {
-            if(requestCode == MainActivity.REQUEST_CODE_EDIT) {
-                final TodoItem updatedTodoItem = data.getParcelableExtra(MainActivity.TODO_ITEM_KEY);
-                copyFrom(updatedTodoItem, mTodoItem);
-                populateUIWithValues();
-            }
-        }
-    }
-
-
-
     private void initializeUIElements() {
         mItemName = (TextView) findViewById(R.id.tvNameVal);
         mItemNotes = (TextView) findViewById(R.id.tvNotesVal);

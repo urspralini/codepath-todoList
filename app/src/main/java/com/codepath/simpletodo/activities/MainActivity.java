@@ -20,7 +20,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static final String POSITION = "position";
-    public static final int REQUEST_CODE_EDIT = 200;
     private ListView lvItems;
     private List<TodoItem> todoItems = new ArrayList<>();
     private TodoItemArrayAdapter todoAdapter;
