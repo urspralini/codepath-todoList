@@ -1,5 +1,6 @@
 package com.codepath.simpletodo.activities;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.activeandroid.Model;
 import com.codepath.simpletodo.R;
+import com.codepath.simpletodo.fragments.DeleteConfirmationFragment;
 import com.codepath.simpletodo.models.TodoItem;
 
 import java.text.SimpleDateFormat;
@@ -28,7 +30,7 @@ public class DetailItemActivity extends AppCompatActivity {
     private int mItemPosition;
     private long mTodoItemId;
     public static final SimpleDateFormat SDF = new SimpleDateFormat("dd/M/yyyy");
-
+    public static final String TODO_ITEM_TITLE_KEY = "todoItemTitleKey";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,8 +72,7 @@ public class DetailItemActivity extends AppCompatActivity {
                 startActivity(editItemIntent);
                 return true;
             case R.id.action_delete:
-                mTodoItem.delete();
-                this.finish();
+                showDeleteConfirmDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -117,5 +118,18 @@ public class DetailItemActivity extends AppCompatActivity {
                 statusColor = Color.parseColor(getString(R.string.status_done_color));
         }
         mItemStatus.setTextColor(statusColor);
+    }
+
+    public void showDeleteConfirmDialog() {
+        DialogFragment delConfirmFragment = new DeleteConfirmationFragment();
+        Bundle args = new Bundle();
+        args.putString(TODO_ITEM_TITLE_KEY, mTodoItem.getName());
+        delConfirmFragment.setArguments(args);
+        delConfirmFragment.show(getFragmentManager(), "dialog");
+    }
+
+    public void confirmDelete() {
+        mTodoItem.delete();
+        this.finish();
     }
 }
