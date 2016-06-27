@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.codepath.simpletodo.R;
 import com.codepath.simpletodo.adapters.TodoItemArrayAdapter;
@@ -23,8 +25,11 @@ public class MainActivity extends AppCompatActivity {
     private ListView lvItems;
     private List<TodoItem> todoItems = new ArrayList<>();
     private TodoItemArrayAdapter todoAdapter;
+    private Spinner mSpinnerSortBy;
+    private ArrayAdapter<CharSequence> mSpinnerSortByAdapter;
     public static final String TODO_ITEM_KEY = "todoItemParcelable";
     public static final String TODO_ITEM_ID_KEY = "todoItemId";
+    public static final int DEFAULT_SORT_POSTION = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +38,38 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //get references to list view and edit text
         lvItems = (ListView)findViewById(R.id.lvItems);
+        mSpinnerSortBy = (Spinner)findViewById(R.id.spinnerSortBy);
+        mSpinnerSortByAdapter = ArrayAdapter.createFromResource(this, R.array.sortBy,
+                android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerSortBy.setAdapter(mSpinnerSortByAdapter);
+        mSpinnerSortBy.setSelection(DEFAULT_SORT_POSTION);
+        mSpinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                final String sortFieldText = mSpinnerSortByAdapter.getItem(position).toString();
+                if(position > 0) {
+                    String sortField;
+                    switch (position){
+                        case 1:
+                            sortField = "DueDate";
+                            break;
+                        case 2:
+                        case 3:
+                        case 4:
+                            sortField = sortFieldText;
+                            break;
+                        default:
+                            sortField = "Name";
+                    }
+                    readItems(sortField);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         configureListViewAdapter();
         //on item click, open detail item activity
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,7 +121,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void readItems(){
-        todoItems = TodoItem.getAll();
+       readItems("Name");
+    }
+
+    private void readItems(String sortField) {
+        todoItems = TodoItem.getAll(sortField);
         todoAdapter.clear();
         todoAdapter.addAll(todoItems);
         todoAdapter.notifyDataSetChanged();

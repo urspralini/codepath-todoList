@@ -55,9 +55,13 @@ public class TodoItem extends Model implements Parcelable {
     public TodoItem(){}
 
     public static List<TodoItem> getAll() {
+        return getAll("Name");
+    }
+
+    public static List<TodoItem> getAll(String sortField) {
         return new Select()
                 .from(TodoItem.class)
-                .orderBy("Name ASC")
+                .orderBy(sortField + " ASC")
                 .limit(100)
                 .execute();
     }

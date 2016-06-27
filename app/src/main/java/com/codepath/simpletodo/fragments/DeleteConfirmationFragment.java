@@ -15,10 +15,11 @@ import com.codepath.simpletodo.activities.DetailItemActivity;
 public class DeleteConfirmationFragment extends DialogFragment {
 
     private String todoItemTitle;
+    public static final String TODO_ITEM_TITLE_KEY = "todoItemTitleKey";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        todoItemTitle = getArguments().getString(DetailItemActivity.TODO_ITEM_TITLE_KEY);
+        todoItemTitle = getArguments().getString(TODO_ITEM_TITLE_KEY);
         return new AlertDialog.Builder(getActivity())
                 .setIcon(R.drawable.ic_warning)
                 .setTitle("Confirm Delete Todo Item:" + todoItemTitle).setPositiveButton("Ok", new DialogInterface.OnClickListener() {

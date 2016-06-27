@@ -30,7 +30,7 @@ public class DetailItemActivity extends AppCompatActivity {
     private int mItemPosition;
     private long mTodoItemId;
     public static final SimpleDateFormat SDF = new SimpleDateFormat("dd/M/yyyy");
-    public static final String TODO_ITEM_TITLE_KEY = "todoItemTitleKey";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,7 +123,7 @@ public class DetailItemActivity extends AppCompatActivity {
     public void showDeleteConfirmDialog() {
         DialogFragment delConfirmFragment = new DeleteConfirmationFragment();
         Bundle args = new Bundle();
-        args.putString(TODO_ITEM_TITLE_KEY, mTodoItem.getName());
+        args.putString(DeleteConfirmationFragment.TODO_ITEM_TITLE_KEY, mTodoItem.getName());
         delConfirmFragment.setArguments(args);
         delConfirmFragment.show(getFragmentManager(), "dialog");
     }

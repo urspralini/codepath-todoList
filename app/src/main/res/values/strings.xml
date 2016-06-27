@@ -26,4 +26,12 @@
     <string name="priority_high_color">#A93226</string>
     <string name="priority_medium_color">#B7950B</string>
     <string name="priority_low_color">#2874A6</string>
+
+    <string-array name="sortBy">
+        <item>Sort By...</item>
+        <item>Due Date</item>
+        <item>Priority</item>
+        <item>Status</item>
+        <item>Name</item>
+    </string-array>
 </resources>
